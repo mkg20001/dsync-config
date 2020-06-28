@@ -1,7 +1,7 @@
 {
-  "name": "maint-d",
+  "name": "@ssd-solar/dsync-config",
   "version": "0.0.1",
-  "description": "",
+  "description": "Extensible library to export/import configs and manage packages of different PMs",
   "main": "src/index.js",
   "template": {
     "extends": [
