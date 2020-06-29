@@ -2,11 +2,11 @@
 
 const cp = require('child_process')
 const path = require('path')
-const {SRCDIR, read, write, exists, match} = require('../utils')
+const { SRCDIR, read, write, exists, match } = require('../utils')
 
 const DCONF = module.exports = {
   export (path) {
-    let out = read(SRCDIR, path)
+    const out = read(SRCDIR, path)
     return out.replace(new RegExp(SRCDIR, 'g'), '$HOME')
   },
   import (path, out) {
@@ -27,15 +27,15 @@ const DCONF = module.exports = {
     return local
   },
   parse (dconf) {
-    let settings = {}
+    const settings = {}
     let cur
 
     dconf.split('\n').filter(Boolean).forEach(line => {
       if (line.startsWith('[')) {
-        let name = line.replace('[', '').replace(']', '')
+        const name = line.replace('[', '').replace(']', '')
         settings[name] = cur = {}
       } else if (~line.indexOf('=')) { // TODO: use re /^\t(.+) = (.+)$/
-        let [name, ...content] = line.split(' = ')
+        const [name, ...content] = line.split(' = ')
         cur[name.replace(/^\t/, '')] = content.join(' = ')
       }
     })

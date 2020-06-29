@@ -11,7 +11,7 @@ const bl = require('bl')
 function spawn (cmd, args, opt, pFnc) {
   return new Promise((resolve, reject) => {
     console.log('$'.yellow.bold + ' ' + [cmd].concat(args).join(' ').blue.bold) // eslint-disable-line no-console
-    const p = cp.spawn(cmd, args, Object.assign({stdio: 'pipe'}, opt || {}))
+    const p = cp.spawn(cmd, args, Object.assign({ stdio: 'pipe' }, opt || {}))
     p.stdout = p.stdout.pipe(bl())
     p.stderr = p.stderr.pipe(bl())
 
@@ -42,8 +42,8 @@ const write = (content, ...a) => fs.writeFileSync(path.join(...a), content)
 const exists = (...a) => fs.existsSync(path.join(...a))
 
 const match = (id, config, inv) => { // TODO: recursive nodel&del
-  let del = Boolean(config.filter(m => !m.neg && minimatch(id, m.line)).length)
-  let nodel = Boolean(config.filter(m => m.neg && minimatch(id, m.line)).length)
+  const del = Boolean(config.filter(m => !m.neg && minimatch(id, m.line)).length)
+  const nodel = Boolean(config.filter(m => m.neg && minimatch(id, m.line)).length)
 
   let out = del && !nodel
   if (inv) { out = !out } // inverse result

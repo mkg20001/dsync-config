@@ -5,14 +5,14 @@ require('colors')
 const fs = require('fs')
 const path = require('path')
 
-const {MAINDIR, REMOTEDIR, read} = require('./utils')
+const { MAINDIR, REMOTEDIR, read } = require('./utils')
 const MODULES = require('./modules')
 
-const {parseConfig} = require('.')
-const {parseIgnore} = require('./ignore')
+const { parseConfig } = require('.')
+const { parseIgnore } = require('./ignore')
 
 const config = parseConfig(read(MAINDIR, 'config')).map(el => {
-  let [type, subtype] = el.type.split(':')
+  const [type, subtype] = el.type.split(':')
   el.module = subtype ? MODULES[type](subtype) : MODULES[type]
   if (el.ignore) {
     el.ignoreList = parseIgnore(read(MAINDIR, el.ignore))
@@ -46,10 +46,10 @@ async function dotExport (el) {
 // TODO: merge
 
 require('yargs') // eslint-disable-line
-  .command('export', 'Export all dotfiles', (yargs) => yargs, async (argv) => {
+  .command('export', 'Export all dotfiles', yargs => yargs, async argv => {
     await Promise.all(config.map(el => dotExport(el)))
   })
-  .command('import', 'Import all dotfiles', (yargs) => yargs, async (argv) => {
+  .command('import', 'Import all dotfiles', yargs => yargs, async argv => {
     await Promise.all(config.map(el => dotImport(el)))
   })
   .option('verbose', {

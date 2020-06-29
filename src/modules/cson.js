@@ -1,14 +1,14 @@
 'use strict'
 
-const {SRCDIR, read, write, exists, match} = require('../utils')
+const { SRCDIR, read, write, exists, match } = require('../utils')
 const dset = require('dset')
 const flatten = require('flat')
-const {unflatten} = flatten
+const { unflatten } = flatten
 const season = require('season')
 
 module.exports = {
   export (path) {
-    let out = read(SRCDIR, path)
+    const out = read(SRCDIR, path)
     return out.replace(new RegExp(SRCDIR, 'g'), '$HOME')
   },
   import (path, out) {
@@ -19,7 +19,7 @@ module.exports = {
     return exists(SRCDIR, path)
   },
   merge (local, remote) {
-    remote = flatten(remote, {safe: true})
+    remote = flatten(remote, { safe: true })
 
     for (const key in remote) {
       dset(local, key, remote[key])
@@ -32,7 +32,7 @@ module.exports = {
   applyIgnore (orig, config, inv) {
     const cloned = JSON.parse(JSON.stringify(orig)) // TODO: perf
 
-    const flat = flatten(cloned, {safe: true})
+    const flat = flatten(cloned, { safe: true })
 
     for (const key in flat) {
       if (match(key, config, inv)) {
@@ -40,6 +40,6 @@ module.exports = {
       }
     }
 
-    return unflatten(flat, {safe: true})
+    return unflatten(flat, { safe: true })
   }
 }

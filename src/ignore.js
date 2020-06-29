@@ -1,10 +1,10 @@
 'use strict'
 
 module.exports = {
-  parseIgnore(str) {
+  parseIgnore (str) {
     return str.split('\n').filter(Boolean).map(line => {
-      let neg = line.startsWith('!')
-      return {line: neg ? line.substr(1) : line, neg}
+      const neg = line.startsWith('!')
+      return { line: neg ? line.substr(1) : line, neg }
     })
   }
 }

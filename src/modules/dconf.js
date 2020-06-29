@@ -3,7 +3,7 @@
 /* eslint-disable guard-for-in */
 
 const P = require('path')
-const {match, exec} = require('../utils')
+const { match, exec } = require('../utils')
 const bl = require('bl')
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
   },
   async import (path, str) {
     str = str.replace(/\$MAIN/g, P.join(P.dirname(P.dirname(P.dirname(P.dirname(__dirname)))), '.mods.d/7-desktop-configuration/pics/')) // path for the background pictures
-    await exec(['dconf', 'load', path], {}, (p) => {
+    await exec(['dconf', 'load', path], {}, p => {
       bl(Buffer.from(str)).pipe(p.stdin)
     }) // then push that into dconf
   },
@@ -30,15 +30,15 @@ module.exports = {
     return local
   },
   parse (dconf) {
-    let settings = {}
+    const settings = {}
     let cur
 
     dconf.split('\n').filter(Boolean).forEach(line => {
       if (line.startsWith('[')) {
-        let name = line.replace('[', '').replace(']', '')
+        const name = line.replace('[', '').replace(']', '')
         settings[name] = cur = {}
       } else if (line.indexOf('=') !== -1) {
-        let [name, ...content] = line.split('=')
+        const [name, ...content] = line.split('=')
         cur[name] = content.join('=')
       }
     })
